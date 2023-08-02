@@ -1,6 +1,5 @@
 import { makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { TrendingCoins } from "../../config/api";
 import { CryptoState } from "../../CryptoContext";
 import AliceCarousel from "react-alice-carousel";
@@ -30,10 +29,16 @@ const Carousel = () => {
   const [trending, setTrending] = useState([]);
   const classes = useStyles();
 
-  const { currency, symbol } = CryptoState();
+  const { currency, symbol, setShowTooManyReqError, apiFetcher } =
+    CryptoState();
   const fetchTrendingCoins = async () => {
-    const { data } = await axios.get(TrendingCoins(currency));
-    setTrending(data);
+    try {
+      const { data } = await apiFetcher(TrendingCoins(currency));
+      setTrending(data);
+    } catch (err) {
+      console.log("err: ", err);
+      setShowTooManyReqError(true);
+    }
   };
 
   console.log(trending);
@@ -45,7 +50,7 @@ const Carousel = () => {
   const items = trending.map((coin) => {
     let profit = coin.price_change_percentage_24h >= 0;
     return (
-      <Link className={classes.carouselItem} to={`/coin/${coin.id}`}>
+      <Link className={classes.carouselItem} to={`/coins/${coin.id}`}>
         <img
           src={coin?.image}
           alt={coin.name}

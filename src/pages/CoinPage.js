@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router";
 import { CryptoState } from "../CryptoContext";
 import { SingleCoin } from "../config/api";
 import { LinearProgress, Typography, makeStyles } from "@material-ui/core";
-import CoinInfo from "./CoinInfo";
-import { numberWithCommas } from "./Banner/Carousel";
+import CoinInfo from "../components/CoinInfo";
+import { numberWithCommas } from "../components/Banner/Carousel";
 
 const CoinPage = () => {
   const { id } = useParams();
   const [coin, setCoin] = useState();
-  const { currency, symbol } = CryptoState();
+  const { currency, symbol, apiFetcher } = CryptoState();
 
   const fetchCoin = async () => {
-    const { data } = await axios.get(SingleCoin(id));
+    const { data } = await apiFetcher(SingleCoin(id));
     setCoin(data);
   };
 

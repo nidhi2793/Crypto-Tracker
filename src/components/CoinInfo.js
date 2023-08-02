@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { CryptoState } from "../CryptoContext";
 import { HistoricalChart } from "../config/api";
 import { chartDays } from "../config/data";
@@ -36,10 +35,10 @@ const CoinInfo = ({ coin }) => {
   const [historicalData, setHistoricalData] = useState();
   const [days, setDays] = useState(1);
 
-  const { currency } = CryptoState();
+  const { currency, apiFetcher } = CryptoState();
 
   const fetchHistoricalData = async () => {
-    const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
+    const { data } = await apiFetcher(HistoricalChart(coin.id, days, currency));
     setHistoricalData(data.prices);
   };
 
