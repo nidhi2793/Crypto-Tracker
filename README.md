@@ -10,6 +10,9 @@ Features:
 
 Tech stack: React | Maretial UI
 
+<img width="950" alt="crypto-tracker" src="https://github.com/nidhi2793/Crypto-Tracker/assets/125755965/fa715b49-8348-44ee-91a6-3344957142a5">
+
+
 
 
 
